@@ -1,14 +1,12 @@
 package com.lib4j.security;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public final class Md5 {
 
     private static String encoding = "utf-8";
-    private static String md5Name = "MD5";
+    private static String algorithm = "MD5";
 
     private Md5() {
     }
@@ -21,8 +19,7 @@ public final class Md5 {
         try {
             byte[] buff = str.getBytes(encoding);
             return encryptByes(buff);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             return null;
         }
     }
@@ -33,11 +30,10 @@ public final class Md5 {
      */
     public static String encryptByes(byte[] buff) {
         try {
-            MessageDigest md5 = MessageDigest.getInstance(md5Name);
+            MessageDigest md5 = MessageDigest.getInstance(algorithm);
             md5.update(buff, 0, buff.length);
             return Hex.encrypt(md5.digest());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             return null;
         }
 

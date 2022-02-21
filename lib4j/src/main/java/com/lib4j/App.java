@@ -1,6 +1,7 @@
 package com.lib4j;
 
 
+import com.lib4j.security.Des;
 import com.lib4j.security.Md5;
 
 /**
@@ -16,7 +17,7 @@ public final class App {
      * @param args The arguments of the program.
      */
     public static void main(String[] args) {
-        System.out.println(Md5.encrypt("abc"));
         System.out.println("Hello World!");
     }
+
 }

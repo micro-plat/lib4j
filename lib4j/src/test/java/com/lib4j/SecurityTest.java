@@ -8,11 +8,35 @@ import com.lib4j.security.Des;
 import com.lib4j.security.Des3;
 import com.lib4j.security.Md5;
 import com.lib4j.security.Rsa;
+import com.lib4j.security.SHA;
 
 /**
  * Unit test for simple App.
  */
 class SecurityTest {
+
+    @Test
+    void testSHA1() {
+        String text = "12345678";
+        String rst = "7c222fb2927d828af22f592134e8932480637c0d";
+        assertEquals(rst, SHA.sha1(text));
+
+    }
+   
+    @Test
+    void testSHA256() {
+        String text = "12345678";
+        String rst = "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f";
+        assertEquals(rst, SHA.sha256(text));
+
+    }
+    @Test
+    void testSHA512() {
+        String text = "12345678";
+        String rst = "32d938bec236b8d25ac5af4404f3f916";
+        assertEquals(rst, SHA.sha512(text));
+
+    }
     /**
      * Rigorous Test.
      */

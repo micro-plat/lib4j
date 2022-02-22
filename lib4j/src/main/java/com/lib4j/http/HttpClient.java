@@ -36,7 +36,7 @@ public class HttpClient {
     }
 
     // 发送GET请求
-    public Response get(String url, List<NameValuePair> parametersBody) {
+    public Response get(String url, List<NameValuePair> parametersBody)  {
         try {
             if (parametersBody == null) {
                 parametersBody = new ArrayList<>();

@@ -7,7 +7,18 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Hmac {
-    private static final String algorithm = "HmacSHA1";
+    private String algorithm = "HmacSHA1";
+
+    public static Hmac HmacSHA1 = new Hmac("HmacSHA1");
+    public static Hmac HmacSHA256 = new Hmac("HmacSHA256");
+
+    public Hmac() {
+
+    }
+
+    public Hmac(String al) {
+        this.algorithm = al;
+    }
 
     /**
      * 使用 HMAC-SHA1 签名方法对对encryptText进行签名
@@ -17,7 +28,7 @@ public class Hmac {
      * @return
      * @throws Exception
      */
-    public static String encrypt(String encryptText, String encryptKey) throws Exception {
+    public String encrypt(String encryptText, String encryptKey) throws Exception {
         byte[] data = encryptKey.getBytes(StandardCharsets.UTF_8);
         // 根据给定的字节数组构造一个密钥,第二参数指定一个密钥算法的名称
         SecretKey secretKey = new SecretKeySpec(data, algorithm);

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.lib4j.security.Aes;
 import com.lib4j.security.Des;
-import com.lib4j.security.Des3;
 import com.lib4j.security.Md5;
 import com.lib4j.security.Rsa;
 import com.lib4j.security.SHA;

@@ -38,7 +38,7 @@ public class SignMaker {
             case md5:
                 return Md5.encrypt(raw);
             case hmac:
-                return Hmac.encrypt(raw, secret);
+                return Hmac.HmacSHA256.encrypt(raw, secret);
             case sha1:
                 return SHA.sha1(raw);
             case sha256:

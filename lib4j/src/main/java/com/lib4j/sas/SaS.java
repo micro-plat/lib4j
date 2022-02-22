@@ -142,7 +142,7 @@ public class SaS<T extends ISasData> {
             case sha512:
                 return SHA.sha512(encryptText);
             case hmac:
-                return Hmac.encrypt(encryptText, secret);
+                return Hmac.HmacSHA256.encrypt(encryptText, secret);
             case aes:
                 return Aes.Instance.encrypt(encryptText, secret);
             case des:

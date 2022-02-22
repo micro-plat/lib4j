@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.security.Key;
+
+import com.lib4j.security.Aes;
 import com.lib4j.security.Des;
 import com.lib4j.security.Des3;
 import com.lib4j.security.Md5;
@@ -22,7 +25,7 @@ class SecurityTest {
         assertEquals(rst, SHA.sha1(text));
 
     }
-   
+
     @Test
     void testSHA256() {
         String text = "12345678";
@@ -30,6 +33,7 @@ class SecurityTest {
         assertEquals(rst, SHA.sha256(text));
 
     }
+
     @Test
     void testSHA512() {
         String text = "12345678";
@@ -37,6 +41,16 @@ class SecurityTest {
         assertEquals(rst, SHA.sha512(text));
 
     }
+
+    @Test
+    void testAES() throws Exception {
+        String text = "12345678";
+        String key = "1234567890123456";
+        String rst = "WH6EuTqFiII8I8/lcEvP2w==";
+        assertEquals(rst, Aes.encrypt(text, key));
+        assertEquals(text, Aes.decrypt(rst, key));
+    }
+
     /**
      * Rigorous Test.
      */
@@ -49,7 +63,7 @@ class SecurityTest {
     }
 
     @Test
-    void testDes() {
+    void testDes() throws Exception {
         String text = "text";
         String pwd = "12345678";
         String rst = "qTn5jiJaJJU=";
@@ -59,7 +73,7 @@ class SecurityTest {
     }
 
     @Test
-    void testDes3() {
+    void testDes3() throws Exception {
         String text = "text";
         String pwd = "12345678";
         String rst = "qTn5jiJaJJU=";
@@ -69,7 +83,7 @@ class SecurityTest {
     }
 
     @Test
-    void testRsa() {
+    void testRsa() throws Exception {
         String text = "text";
         String rx = "";
         String pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtkZ4flVMsiGNGwZtIZ7s2dG2e" +
@@ -92,12 +106,9 @@ class SecurityTest {
                 "8HxRH/7xsOEWLCWog6cpmfwzVkCAqjtqAmt6NixiUwD1cOpY12jDBKTyQH6A1msu" +
                 "XYJTSCldh150CC33DA==";
 
-        try {
-            String rst = Rsa.encrypt(text, pubKey);
-            rx = Rsa.decrypt(rst, priKey);
-        } catch (Exception e) {
+        String rst = Rsa.encrypt(text, pubKey);
+        rx = Rsa.decrypt(rst, priKey);
 
-        }
         assertEquals(text, rx);
 
     }

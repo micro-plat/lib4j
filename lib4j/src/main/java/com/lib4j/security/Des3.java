@@ -10,8 +10,9 @@ public class Des3 {
      * @param text
      * @param pwd
      * @return String
+     * @throws Exception
      */
-    public static String encrypt(String text, String pwd) {
+    public static String encrypt(String text, String pwd) throws Exception {
         return des.encrypt(text, pwd);
     }
 
@@ -22,8 +23,9 @@ public class Des3 {
      * @param pwd
      * @param mode
      * @return String
+     * @throws Exception
      */
-    public static String encrypt(String text, String pwd, String mode) {
+    public static String encrypt(String text, String pwd, String mode) throws Exception {
         return des.encrypt(text, pwd, mode);
     }
 
@@ -33,8 +35,9 @@ public class Des3 {
      * @param data
      * @param pwd
      * @return byte[]
+     * @throws Exception
      */
-    public static byte[] encryptBytes(byte[] data, String pwd) {
+    public static byte[] encryptBytes(byte[] data, String pwd) throws Exception {
         return des.encryptBytes(data, pwd);
     }
 
@@ -45,8 +48,9 @@ public class Des3 {
      * @param pwd
      * @param mode
      * @return byte[]
+     * @throws Exception
      */
-    public static byte[] encryptBytes(byte[] data, String pwd, String mode) {
+    public static byte[] encryptBytes(byte[] data, String pwd, String mode) throws Exception {
         return des.decryptBytes(data, pwd, mode);
     }
 
@@ -56,8 +60,9 @@ public class Des3 {
      * @param password
      * @param key
      * @return String
+     * @throws Exception
      */
-    public static String decrypt(String password, String key) {
+    public static String decrypt(String password, String key) throws Exception {
         return des.decrypt(password, key);
 
     }
@@ -69,8 +74,9 @@ public class Des3 {
      * @param key
      * @param mode
      * @return String
+     * @throws Exception
      */
-    public static String decrypt(String password, String key, String mode) {
+    public static String decrypt(String password, String key, String mode) throws Exception {
         return des.decrypt(password, key, mode);
 
     }
@@ -83,7 +89,7 @@ public class Des3 {
      * @return byte[]
      * @throws Exception
      */
-    public static byte[] decryptBytes(byte[] src, String pwd) {
+    public static byte[] decryptBytes(byte[] src, String pwd) throws Exception {
         return des.decryptBytes(src, pwd);
     }
 
@@ -96,7 +102,7 @@ public class Des3 {
      * @return byte[]
      * @throws Exception
      */
-    public static byte[] decryptBytes(byte[] src, String pwd, String mode) {
+    public static byte[] decryptBytes(byte[] src, String pwd, String mode) throws Exception {
         return des.decryptBytes(src, pwd, mode);
     }
 }

@@ -5,6 +5,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.util.Base64;
 
 //处理DES加解密
@@ -23,8 +24,9 @@ public class DesHelper {
      * @param text
      * @param pwd
      * @return String
+     * @throws Exception
      */
-    public String encrypt(String text, String pwd) {
+    public String encrypt(String text, String pwd) throws Exception {
         return encrypt(text, pwd, defMode);
     }
 
@@ -35,8 +37,9 @@ public class DesHelper {
      * @param pwd
      * @param mode
      * @return String
+     * @throws Exception
      */
-    public String encrypt(String text, String pwd, String mode) {
+    public String encrypt(String text, String pwd, String mode) throws Exception {
         byte[] encrypt = encryptBytes(text.getBytes(StandardCharsets.UTF_8), pwd, mode);
         assert encrypt != null;
         return new String(Base64.getEncoder().encode(encrypt), StandardCharsets.UTF_8);
@@ -48,8 +51,9 @@ public class DesHelper {
      * @param data
      * @param pwd
      * @return byte[]
+     * @throws Exception
      */
-    public byte[] encryptBytes(byte[] data, String pwd) {
+    public byte[] encryptBytes(byte[] data, String pwd) throws Exception {
         return encryptBytes(data, pwd, defMode);
     }
 
@@ -60,24 +64,22 @@ public class DesHelper {
      * @param pwd
      * @param mode
      * @return byte[]
+     * @throws InvalidKeyException
      */
-    public byte[] encryptBytes(byte[] data, String pwd, String mode) {
-        try {
-            if (mode == null || mode == "") {
-                mode = defMode;
-            }
-            byte[] key = pwd.getBytes();
-            DESKeySpec desKey = new DESKeySpec(key);
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
-            SecretKey securekey = keyFactory.generateSecret(desKey);
-            Cipher cipher = Cipher.getInstance(mode);
-            cipher.init(Cipher.ENCRYPT_MODE, securekey);
+    public byte[] encryptBytes(byte[] data, String pwd, String mode) throws Exception {
 
-            return cipher.doFinal(data);
-        } catch (Throwable e) {
-            e.printStackTrace();
+        if (mode == null || mode == "") {
+            mode = defMode;
         }
-        return null;
+        byte[] key = pwd.getBytes();
+        DESKeySpec desKey = new DESKeySpec(key);
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
+        SecretKey securekey = keyFactory.generateSecret(desKey);
+        Cipher cipher = Cipher.getInstance(mode);
+        cipher.init(Cipher.ENCRYPT_MODE, securekey);
+
+        return cipher.doFinal(data);
+
     }
 
     /**
@@ -86,8 +88,9 @@ public class DesHelper {
      * @param password
      * @param key
      * @return String
+     * @throws Exception
      */
-    public String decrypt(String password, String key) {
+    public String decrypt(String password, String key) throws Exception {
         return decrypt(password, key, defMode);
     }
 
@@ -98,8 +101,9 @@ public class DesHelper {
      * @param key
      * @param mode
      * @return String
+     * @throws Exception
      */
-    public String decrypt(String password, String key, String mode) {
+    public String decrypt(String password, String key, String mode) throws Exception {
         return new String(
                 decryptBytes(Base64.getDecoder().decode(password.getBytes(StandardCharsets.UTF_8)), key, mode),
                 StandardCharsets.UTF_8);
@@ -114,7 +118,7 @@ public class DesHelper {
      * @return byte[]
      * @throws Exception
      */
-    public byte[] decryptBytes(byte[] src, String pwd) {
+    public byte[] decryptBytes(byte[] src, String pwd) throws Exception {
         return decryptBytes(src, pwd, defMode);
     }
 
@@ -127,20 +131,18 @@ public class DesHelper {
      * @return byte[]
      * @throws Exception
      */
-    public byte[] decryptBytes(byte[] src, String pwd, String mode) {
-        try {
-            if (mode == null || mode == "") {
-                mode = defMode;
-            }
-            byte[] key = pwd.getBytes();
-            DESKeySpec desKey = new DESKeySpec(key);
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
-            SecretKey securekey = keyFactory.generateSecret(desKey);
-            Cipher cipher = Cipher.getInstance(mode);
-            cipher.init(Cipher.DECRYPT_MODE, securekey);
-            return cipher.doFinal(src);
-        } catch (Exception e) {
-            return null;
+    public byte[] decryptBytes(byte[] src, String pwd, String mode) throws Exception {
+
+        if (mode == null || mode == "") {
+            mode = defMode;
         }
+        byte[] key = pwd.getBytes();
+        DESKeySpec desKey = new DESKeySpec(key);
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(algorithm);
+        SecretKey securekey = keyFactory.generateSecret(desKey);
+        Cipher cipher = Cipher.getInstance(mode);
+        cipher.init(Cipher.DECRYPT_MODE, securekey);
+        return cipher.doFinal(src);
+
     }
 }

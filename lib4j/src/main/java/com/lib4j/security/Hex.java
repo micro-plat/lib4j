@@ -7,13 +7,13 @@ public class Hex {
     private static int int16 = 16;
 
     /**
-     * @param buff
+     * @param encryptText
      * @return String
      */
-    public static String encrypt(byte[] buff) {
+    public static String encrypt(byte[] encryptText) {
         StringBuilder sb = new StringBuilder(int16);
-        for (int i = 0; i < buff.length; i++) {
-            sb.append(byteToHexString(buff[i]));
+        for (int i = 0; i < encryptText.length; i++) {
+            sb.append(byteToHexString(encryptText[i]));
         }
         return sb.toString();
     }

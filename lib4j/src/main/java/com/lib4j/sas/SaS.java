@@ -35,7 +35,7 @@ public class SaS<T extends ISasData> {
      * @throws Exception
      */
     public String getSecret(String uid, SasType tp) throws Exception {
-        return Aes.decrypt(this.iSasData.getSecret(uid, tp.name()), getSecretKey(uid));
+        return Aes.Instance.decrypt(this.iSasData.getSecret(uid, tp.name()), getSecretKey(uid));
     }
 
     /**
@@ -47,7 +47,7 @@ public class SaS<T extends ISasData> {
      * @throws Exception
      */
     public void setSecret(String uid, SasType tp, String value) throws Exception {
-        this.iSasData.setSecret(uid, tp.name(), Aes.encrypt(value, getSecretKey(uid)));
+        this.iSasData.setSecret(uid, tp.name(), Aes.Instance.encrypt(value, getSecretKey(uid)));
     }
 
     /**
@@ -59,10 +59,38 @@ public class SaS<T extends ISasData> {
      * @return String
      * @throws Exception
      */
-    public String GenRaw(String uid, AlgorithmType tp, Map<String, Object> params) throws Exception {
+    public String genRaw(String uid, AlgorithmType tp, Map<String, Object> params) throws Exception {
         SasType stp = AlgorithmType.GetSasType(tp);
         String secret = this.getSecret(uid, stp);
-        return SignMaker.Instance.GenRaw(params, secret);
+        return SignMaker.Instance.genRaw(params, secret);
+    }
+
+    /**
+     * 验证签名是否相同
+     * 
+     * @param uid
+     * @param tp
+     * @param params
+     * @param outSign
+     * @return boolean
+     * @throws Exception
+     */
+    public boolean verify(String uid, AlgorithmType tp, Map<String, Object> params, String outSign) throws Exception {
+        return genSignature(uid, tp, params).equalsIgnoreCase(outSign);
+    }
+
+    /**
+     * 验证签名是否相同
+     * 
+     * @param raw
+     * @param tp
+     * @param secret
+     * @param outSign
+     * @return boolean
+     * @throws Exception
+     */
+    public boolean verify(String raw, AlgorithmType tp, String secret, String outSign) throws Exception {
+        return genSignature(raw, tp, secret).equalsIgnoreCase(outSign);
     }
 
     /**
@@ -74,8 +102,8 @@ public class SaS<T extends ISasData> {
      * @return String
      * @throws Exception
      */
-    public String GenSignature(String raw, AlgorithmType tp, String secret) throws Exception {
-        return SignMaker.Instance.GenSignature(raw, tp, secret);
+    public String genSignature(String raw, AlgorithmType tp, String secret) throws Exception {
+        return SignMaker.Instance.genSignature(raw, tp, secret);
     }
 
     /**
@@ -87,10 +115,10 @@ public class SaS<T extends ISasData> {
      * @return String
      * @throws Exception
      */
-    public String GenSignature(String uid, AlgorithmType tp, Map<String, Object> params) throws Exception {
-        String raw = GenRaw(uid, tp, params);
+    public String genSignature(String uid, AlgorithmType tp, Map<String, Object> params) throws Exception {
+        String raw = genRaw(uid, tp, params);
         String secret = getSecret(uid, AlgorithmType.GetSasType(tp));
-        return SignMaker.Instance.GenSignature(raw, tp, secret);
+        return SignMaker.Instance.genSignature(raw, tp, secret);
     }
 
     /**
@@ -102,25 +130,25 @@ public class SaS<T extends ISasData> {
      * @return String
      * @throws Exception
      */
-    public String encrypt(String uid, AlgorithmType tp, String plainText) throws Exception {
+    public String encrypt(String uid, AlgorithmType tp, String encryptText) throws Exception {
         String secret = getSecret(uid, AlgorithmType.GetSasType(tp));
         switch (tp) {
             case md5:
-                return Md5.encrypt(plainText);
+                return Md5.encrypt(encryptText);
             case sha1:
-                return SHA.sha1(plainText);
+                return SHA.sha1(encryptText);
             case sha256:
-                return SHA.sha256(plainText);
+                return SHA.sha256(encryptText);
             case sha512:
-                return SHA.sha512(plainText);
+                return SHA.sha512(encryptText);
             case hmac:
-                return Hmac.encrypt(plainText, secret);
+                return Hmac.encrypt(encryptText, secret);
             case aes:
-                return Aes.encrypt(plainText, secret);
+                return Aes.Instance.encrypt(encryptText, secret);
             case des:
-                return Des.encrypt(plainText, secret);
+                return Des.Instance.encrypt(encryptText, secret);
             case rsaPub:
-                return Rsa.encrypt(plainText, secret);
+                return Rsa.encrypt(encryptText, secret);
             default:
                 throw new Exception(System.out.format("不支持的加密类型%s", tp).toString());
 
@@ -132,19 +160,19 @@ public class SaS<T extends ISasData> {
      * 
      * @param uid
      * @param tp
-     * @param plainText
+     * @param decryptText
      * @return String
      * @throws Exception
      */
-    public String decrypt(String uid, AlgorithmType tp, String plainText) throws Exception {
+    public String decrypt(String uid, AlgorithmType tp, String decryptText) throws Exception {
         String secret = getSecret(uid, AlgorithmType.GetSasType(tp));
         switch (tp) {
             case aes:
-                return Aes.decrypt(plainText, secret);
+                return Aes.Instance.decrypt(decryptText, secret);
             case des:
-                return Des.decrypt(plainText, secret);
+                return Des.Instance.decrypt(decryptText, secret);
             case rsaPri:
-                return Rsa.decrypt(plainText, secret);
+                return Rsa.decrypt(decryptText, secret);
             default:
                 throw new Exception(System.out.format("不支持的解密类型%s", tp).toString());
 

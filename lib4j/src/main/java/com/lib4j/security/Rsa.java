@@ -47,7 +47,7 @@ public class Rsa {
     /**
      * RSA公钥加密
      * 
-     * @param str
+     * @param encryptText
      *                  加密字符串
      * @param publicKey
      *                  公钥
@@ -55,7 +55,7 @@ public class Rsa {
      * @throws Exception
      *                   加密过程中的异常信息
      */
-    public static String encrypt(String str, String publicKey) throws Exception {
+    public static String encrypt(String encryptText, String publicKey) throws Exception {
         // base64编码的公钥
         byte[] decoded = Base64.getDecoder().decode(publicKey);
         RSAPublicKey pubKey = (RSAPublicKey) KeyFactory.getInstance(algorithm)
@@ -63,14 +63,14 @@ public class Rsa {
         // RSA加密
         Cipher cipher = Cipher.getInstance(algorithm);
         cipher.init(Cipher.ENCRYPT_MODE, pubKey);
-        String outStr = Base64.getEncoder().encodeToString(cipher.doFinal(str.getBytes(encoding)));
+        String outStr = Base64.getEncoder().encodeToString(cipher.doFinal(encryptText.getBytes(encoding)));
         return outStr;
     }
 
     /**
      * RSA私钥解密
      * 
-     * @param str
+     * @param decryptText
      *                   加密字符串
      * @param privateKey
      *                   私钥
@@ -78,9 +78,9 @@ public class Rsa {
      * @throws Exception
      *                   解密过程中的异常信息
      */
-    public static String decrypt(String str, String privateKey) throws Exception {
+    public static String decrypt(String decryptText, String privateKey) throws Exception {
         // 64位解码加密后的字符串
-        byte[] inputByte = Base64.getDecoder().decode(str.getBytes(encoding));
+        byte[] inputByte = Base64.getDecoder().decode(decryptText.getBytes(encoding));
         // base64编码的私钥
         byte[] decoded = Base64.getDecoder().decode(privateKey);
         RSAPrivateKey priKey = (RSAPrivateKey) KeyFactory.getInstance(algorithm)

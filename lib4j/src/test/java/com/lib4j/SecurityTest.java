@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.security.Key;
-
 import com.lib4j.security.Aes;
 import com.lib4j.security.Des;
 import com.lib4j.security.Des3;
@@ -47,8 +45,8 @@ class SecurityTest {
         String text = "12345678";
         String key = "1234567890123456";
         String rst = "WH6EuTqFiII8I8/lcEvP2w==";
-        assertEquals(rst, Aes.encrypt(text, key));
-        assertEquals(text, Aes.decrypt(rst, key));
+        assertEquals(rst, Aes.Instance.encrypt(text, key));
+        assertEquals(text, Aes.Instance.decrypt(rst, key));
     }
 
     /**
@@ -67,8 +65,8 @@ class SecurityTest {
         String text = "text";
         String pwd = "12345678";
         String rst = "qTn5jiJaJJU=";
-        assertEquals(rst, Des.encrypt(text, pwd));
-        assertEquals(text, Des.decrypt(rst, pwd));
+        assertEquals(rst, Des.Instance.encrypt(text, pwd));
+        assertEquals(text, Des.Instance.decrypt(rst, pwd));
 
     }
 
@@ -77,8 +75,8 @@ class SecurityTest {
         String text = "text";
         String pwd = "12345678";
         String rst = "qTn5jiJaJJU=";
-        assertEquals(rst, Des3.encrypt(text, pwd));
-        assertEquals(text, Des3.decrypt(rst, pwd));
+        assertEquals(rst, Des3.Instance.encrypt(text, pwd));
+        assertEquals(text, Des3.Instance.decrypt(rst, pwd));
 
     }
 

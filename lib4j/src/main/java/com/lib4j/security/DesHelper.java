@@ -21,26 +21,26 @@ public class DesHelper {
     /**
      * DES加密,默认使用DES/ECB/PKCS5Padding
      * 
-     * @param text
+     * @param encryptText
      * @param pwd
      * @return String
      * @throws Exception
      */
-    public String encrypt(String text, String pwd) throws Exception {
-        return encrypt(text, pwd, defMode);
+    public String encrypt(String encryptText, String pwd) throws Exception {
+        return encrypt(encryptText, pwd, defMode);
     }
 
     /**
      * DES加密,根据传入加密模式，填充模式进行加密
      * 
-     * @param text
+     * @param encryptText
      * @param pwd
      * @param mode
      * @return String
      * @throws Exception
      */
-    public String encrypt(String text, String pwd, String mode) throws Exception {
-        byte[] encrypt = encryptBytes(text.getBytes(StandardCharsets.UTF_8), pwd, mode);
+    public String encrypt(String encryptText, String pwd, String mode) throws Exception {
+        byte[] encrypt = encryptBytes(encryptText.getBytes(StandardCharsets.UTF_8), pwd, mode);
         assert encrypt != null;
         return new String(Base64.getEncoder().encode(encrypt), StandardCharsets.UTF_8);
     }
@@ -60,13 +60,13 @@ public class DesHelper {
     /**
      * DES加密,根据传入加密模式，填充模式进行加密
      * 
-     * @param data
+     * @param encryptText
      * @param pwd
      * @param mode
      * @return byte[]
      * @throws InvalidKeyException
      */
-    public byte[] encryptBytes(byte[] data, String pwd, String mode) throws Exception {
+    public byte[] encryptBytes(byte[] encryptText, String pwd, String mode) throws Exception {
 
         if (mode == null || mode == "") {
             mode = defMode;
@@ -78,34 +78,34 @@ public class DesHelper {
         Cipher cipher = Cipher.getInstance(mode);
         cipher.init(Cipher.ENCRYPT_MODE, securekey);
 
-        return cipher.doFinal(data);
+        return cipher.doFinal(encryptText);
 
     }
 
     /**
      * DES解密，默认使用DES/ECB/PKCS5Padding
      * 
-     * @param password
+     * @param decryptText
      * @param key
      * @return String
      * @throws Exception
      */
-    public String decrypt(String password, String key) throws Exception {
-        return decrypt(password, key, defMode);
+    public String decrypt(String decryptText, String key) throws Exception {
+        return decrypt(decryptText, key, defMode);
     }
 
     /**
      * DES解密,根据传入加密模式，填充模式进行加密
      * 
-     * @param password
+     * @param decryptText
      * @param key
      * @param mode
      * @return String
      * @throws Exception
      */
-    public String decrypt(String password, String key, String mode) throws Exception {
+    public String decrypt(String decryptText, String key, String mode) throws Exception {
         return new String(
-                decryptBytes(Base64.getDecoder().decode(password.getBytes(StandardCharsets.UTF_8)), key, mode),
+                decryptBytes(Base64.getDecoder().decode(decryptText.getBytes(StandardCharsets.UTF_8)), key, mode),
                 StandardCharsets.UTF_8);
 
     }
@@ -113,25 +113,25 @@ public class DesHelper {
     /**
      * DES解密，默认使用DES/ECB/PKCS5Padding
      * 
-     * @param src
+     * @param decryptText
      * @param pwd
      * @return byte[]
      * @throws Exception
      */
-    public byte[] decryptBytes(byte[] src, String pwd) throws Exception {
-        return decryptBytes(src, pwd, defMode);
+    public byte[] decryptBytes(byte[] decryptText, String pwd) throws Exception {
+        return decryptBytes(decryptText, pwd, defMode);
     }
 
     /**
      * DES加密,根据传入加密模式，填充模式进行加密
      * 
-     * @param src
+     * @param decryptText
      * @param pwd
      * @param mode
      * @return byte[]
      * @throws Exception
      */
-    public byte[] decryptBytes(byte[] src, String pwd, String mode) throws Exception {
+    public byte[] decryptBytes(byte[] decryptText, String pwd, String mode) throws Exception {
 
         if (mode == null || mode == "") {
             mode = defMode;
@@ -142,7 +142,7 @@ public class DesHelper {
         SecretKey securekey = keyFactory.generateSecret(desKey);
         Cipher cipher = Cipher.getInstance(mode);
         cipher.init(Cipher.DECRYPT_MODE, securekey);
-        return cipher.doFinal(src);
+        return cipher.doFinal(decryptText);
 
     }
 }

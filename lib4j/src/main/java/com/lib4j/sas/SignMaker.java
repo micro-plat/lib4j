@@ -13,27 +13,27 @@ public class SignMaker {
 
     public boolean verify(Map<String, Object> params, AlgorithmType tp, String secret, String outSign)
             throws Exception {
-        return GenSignature(params, tp, secret).equalsIgnoreCase(outSign);
+        return genSignature(params, tp, secret).equalsIgnoreCase(outSign);
 
     }
 
     public boolean verify(Map<String, Object> params, AlgorithmType tp, String secret, String kc, String oc,
             ConnectMode mode,
             String outSign) throws Exception {
-        return GenSignature(params, tp, secret, kc, oc, mode).equalsIgnoreCase(outSign);
+        return genSignature(params, tp, secret, kc, oc, mode).equalsIgnoreCase(outSign);
     }
 
-    public String GenSignature(Map<String, Object> params, AlgorithmType tp, String secret) throws Exception {
-        return GenSignature(params, tp, secret);
+    public String genSignature(Map<String, Object> params, AlgorithmType tp, String secret) throws Exception {
+        return genSignature(params, tp, secret);
     }
 
-    public String GenSignature(Map<String, Object> params, AlgorithmType tp, String secret, String kc, String oc,
+    public String genSignature(Map<String, Object> params, AlgorithmType tp, String secret, String kc, String oc,
             ConnectMode mode) throws Exception {
-        String raw = GenRaw(params, secret, kc, oc, mode);
-        return GenSignature(raw, tp, secret);
+        String raw = genRaw(params, secret, kc, oc, mode);
+        return genSignature(raw, tp, secret);
     }
 
-    public String GenSignature(String raw, AlgorithmType tp, String secret) throws Exception {
+    public String genSignature(String raw, AlgorithmType tp, String secret) throws Exception {
         switch (tp) {
             case md5:
                 return Md5.encrypt(raw);
@@ -50,11 +50,11 @@ public class SignMaker {
         }
     }
 
-    public String GenRaw(Map<String, Object> params, String secret) {
-        return GenRaw(params, secret, "", "", ConnectMode.Tail);
+    public String genRaw(Map<String, Object> params, String secret) {
+        return genRaw(params, secret, "", "", ConnectMode.Tail);
     }
 
-    public String GenRaw(Map<String, Object> params, String secret, String kc, String oc, ConnectMode mode) {
+    public String genRaw(Map<String, Object> params, String secret, String kc, String oc, ConnectMode mode) {
 
         String[] keys = params.keySet().toArray(new String[0]);
         Arrays.sort(keys);

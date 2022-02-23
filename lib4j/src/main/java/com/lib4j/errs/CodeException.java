@@ -1,18 +1,29 @@
-package com.lib4j.errs;
+package  com.lib4j.errs;
 
 import java.text.MessageFormat;
 
 public class CodeException extends RuntimeException {
-    private String code;
-    private String message;
 
-    public CodeException(String code, String message) {
+    private static final long serialVersionUID=8088897180748768529L;
+    
+    private int code;
+    private String message;
+    private Object data;
+
+    public CodeException(int code) {
+        this.code = code;
+    }
+    public CodeException(int code, String message) {
         this.code = code;
         this.message = message;
     }
+    public CodeException(int code, String message, Object data) {
+        this.code = code;
+        this.data = data;
+    }
 
     public CodeException(Exception e) {
-        this.code = "500";
+        this.code = 500;
         this.message = e.getMessage();
     }
 
@@ -21,7 +32,7 @@ public class CodeException extends RuntimeException {
      * 
      * @return String
      */
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
@@ -35,6 +46,10 @@ public class CodeException extends RuntimeException {
         return message;
     }
 
+
+    public Object getData() {
+        return data;
+    }
     /**
      * @return Throwable
      */

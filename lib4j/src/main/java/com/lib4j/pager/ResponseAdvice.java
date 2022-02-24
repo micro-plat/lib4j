@@ -79,6 +79,9 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     // 设置跨域头
     private void setCrossDomainHeader(HttpServletRequest request, HttpServletResponse response) {
         String origin = request.getHeader("Origin");
+        if(origin==null || origin==""){
+            origin=request.getHeader("Host");
+        }
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Headers", headers);
         response.setHeader("Access-Control-Expose-Headers", headers);

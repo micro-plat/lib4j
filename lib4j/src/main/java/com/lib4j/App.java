@@ -1,8 +1,6 @@
 package com.lib4j;
 
 
-import com.lib4j.security.Des;
-import com.lib4j.security.Md5;
 
 /**
  * Hello world!

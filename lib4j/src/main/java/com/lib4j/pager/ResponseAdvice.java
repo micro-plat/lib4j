@@ -85,6 +85,6 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Headers", headers);
         response.setHeader("Access-Control-Expose-Headers", headers);
-        response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
     }
 }

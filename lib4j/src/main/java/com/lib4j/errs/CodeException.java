@@ -1,11 +1,9 @@
-package  com.lib4j.errs;
+package com.lib4j.errs;
 
 import java.text.MessageFormat;
 
 public class CodeException extends RuntimeException {
 
-    private static final long serialVersionUID=8088897180748768529L;
-    
     private int code;
     private String message;
     private Object data;
@@ -13,10 +11,12 @@ public class CodeException extends RuntimeException {
     public CodeException(int code) {
         this.code = code;
     }
+
     public CodeException(int code, String message) {
         this.code = code;
         this.message = message;
     }
+
     public CodeException(int code, String message, Object data) {
         this.code = code;
         this.data = data;
@@ -46,10 +46,10 @@ public class CodeException extends RuntimeException {
         return message;
     }
 
-
     public Object getData() {
         return data;
     }
+
     /**
      * @return Throwable
      */

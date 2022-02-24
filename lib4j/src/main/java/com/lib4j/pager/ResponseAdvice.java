@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestControllerAdvice
 public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(final MethodParameter returnType,
             final Class<? extends HttpMessageConverter<?>> converterType) {
-
+        
         Method method = returnType.getMethod();
         return method.getReturnType().isAssignableFrom(Result.class);
     }

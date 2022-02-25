@@ -5,6 +5,7 @@ package com.lib4j;
 /**
  * Hello world!
  */
+
 public final class App {
     private App() {
     }

@@ -1,6 +1,5 @@
 package com.lib4j.pager;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -79,8 +78,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
     // 设置跨域头
     private void setCrossDomainHeader(HttpServletRequest request, HttpServletResponse response) {
         String origin = request.getHeader("Origin");
-        if(origin==null || origin==""){
-            origin=request.getHeader("Host");
+        if (origin == null || origin == "") {
+            origin = request.getHeader("Host");
         }
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Headers", headers);

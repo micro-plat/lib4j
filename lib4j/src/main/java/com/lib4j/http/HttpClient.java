@@ -22,7 +22,6 @@ public class HttpClient {
     private int connectTimeout = 30000;
 
     public HttpClient() {
-
     }
 
     public HttpClient(int socketTimeout, int connectTimeout) {
@@ -49,8 +48,9 @@ public class HttpClient {
             CloseableHttpClient client = HttpClientBuilder.create().build();
             HttpResponse response = client.execute(get);
             int code = response.getStatusLine().getStatusCode();
+            Response rspn= new Response(code, EntityUtils.toString(response.getEntity()));
             get.releaseConnection();
-            return new Response(code, EntityUtils.toString(response.getEntity()));
+            return rspn;
         } catch (Exception e) {
             return new Response(600, "ERR:远程请求失败" + e.getMessage());
         }
@@ -80,9 +80,10 @@ public class HttpClient {
             post.setEntity(entity);
             CloseableHttpClient client = HttpClientBuilder.create().build();
             HttpResponse response = client.execute(post);
-            post.releaseConnection();
             int code = response.getStatusLine().getStatusCode();
-            return new Response(code, EntityUtils.toString(response.getEntity()));
+            Response rspn= new Response(code, EntityUtils.toString(response.getEntity()));
+            post.releaseConnection();
+            return rspn;
         } catch (Exception e) {
             return new Response(600, "ERR:远程请求失败" + e.getMessage());
         }

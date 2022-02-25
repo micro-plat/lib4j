@@ -1,14 +1,13 @@
-package  com.lib4j.pager;
+package com.lib4j.pager;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
 
+public class Result<T> implements Serializable {
 
-public class Result implements Serializable {
-
-    private int status;
-    private Object data;
-    public static Result NotAcceptable = new Result(406, "缺少必须参数");
+    protected int status;
+    protected T data;
+    public static Result<String> NotAcceptable = new Result<String>(406, "缺少必须参数");
 
     public Result() {
         this.status = 200;
@@ -18,7 +17,7 @@ public class Result implements Serializable {
         this.status = status;
     }
 
-    public Result(int status, Object data) {
+    public Result(int status, T data) {
         this.status = status;
         this.data = data;
     }
@@ -37,7 +36,7 @@ public class Result implements Serializable {
      * 
      * @return Object
      */
-    public Object getData() {
+    public T getData() {
         return this.data;
     }
 
@@ -56,8 +55,8 @@ public class Result implements Serializable {
      * @param obj
      * @return Result
      */
-    public static Result Success(Object obj) {
-        return new Result(200, obj);
+    public static <T> Result<T> Success(T obj) {
+        return new Result<T>(200, obj);
     }
 
     /**
@@ -67,8 +66,12 @@ public class Result implements Serializable {
      * @param message
      * @return Result
      */
-    public static Result Failed(Integer code, Object message) {
-        return new Result(code, message);
+    public static <T> Result<T> Failed(Integer code, T message) {
+        return new Result<T>(code, message);
+    }
+
+    public static <T> Result<T> Failed(Integer code) {
+        return new Result<T>(code);
     }
 
     /**
@@ -76,6 +79,6 @@ public class Result implements Serializable {
      */
     @Override
     public String toString() {
-        return MessageFormat.format("{0}[{1}]", this.status,this.data);
+        return MessageFormat.format("{0}[{1}]", this.status, this.data);
     }
 }

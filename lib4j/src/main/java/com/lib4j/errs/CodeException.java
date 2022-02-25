@@ -11,6 +11,10 @@ public class CodeException extends RuntimeException {
     public CodeException(int code) {
         this.code = code;
     }
+    public CodeException(int code, Exception e) {
+        this.code = 500;
+        this.message = e.getMessage();
+    }
 
     public CodeException(int code, String message) {
         this.code = code;
